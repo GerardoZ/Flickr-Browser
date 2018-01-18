@@ -1,10 +1,15 @@
 package com.gerardozarate.flickrbrowser;
 
+import java.io.Serializable;
+
 /**
  * Created by gerardo.zarate on 1/17/18.
  */
 
-class Photo {
+class Photo implements Serializable{
+
+    private static final long serialVersionUID = 1L;
+
     private String mTitle;
     private String mAuthor;
     private String mAuthorId;
