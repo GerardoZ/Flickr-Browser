@@ -1,7 +1,9 @@
 package com.gerardozarate.flickrbrowser;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -41,9 +43,14 @@ public class MainActivity extends BaseActivity implements GetFlickrJsonData.OnDa
     protected void onResume() {
         Log.d(TAG, "onResume: Starts");
         super.onResume();
-        GetFlickrJsonData getFlickrJsonData = new GetFlickrJsonData("https://api.flickr.com/services/feeds/photos_public.gne?tags=na&format=json&nojsoncallback=1", "en-us", true, this);
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        String queryResult = sharedPreferences.getString(FLICKR_QUERY, "");
+        if(queryResult.length() > 0){
+            GetFlickrJsonData getFlickrJsonData = new GetFlickrJsonData("https://api.flickr.com/services/feeds/photos_public.gne?tags=na&format=json&nojsoncallback=1", "en-us", true, this);
 //        getFlickrJsonData.executeOnSameThread("android, nougat");
-        getFlickrJsonData.execute("android,nougat");
+            getFlickrJsonData.execute(queryResult);
+        }
+
         Log.d(TAG, "onResume: Ends");
         
     }
